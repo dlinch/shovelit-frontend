@@ -1,0 +1,66 @@
+@import url(https://fonts.googleapis.com/css?family=Titillium+Web);
+
+body {
+  font-family: "Titillium Web";
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+header {
+  height: 10px;
+  margin: 0px;
+  padding: 0px;
+}
+header > h3 {
+  display: inline-block;
+  margin: 20px 25px;
+  color: white;
+}
+
+.main-content > h1, .main-content > h2 {
+  margin: 0px;
+  text-shadow: 1px 2px black;
+}
+
+h1 {
+  font-size: 3em;
+  padding-top: 120px;
+  margin-bottom: 0px;
+}
+
+.main-content {
+  width: 100vw;
+  height: 75vh;
+  background-color: tomato;
+  background: url(assets/snow-house.jpg) no-repeat center/100%;
+  background-size: cover;
+  text-align: center;
+  color: whitesmoke;
+}
+
+button {
+  padding: 25px 50px;
+  background-color: firebrick;
+  position: absolute;
+  bottom: 250px;
+  color: whitesmoke;
+  font-size: 1.3em;
+}
+
+button:hover{
+  background-color: coral;
+}
+
+body {
+  text-align: center;
+}
+.triple-content{
+  display: flex;
+}
+
+.mini-content {
+  width: 30%;
+  margin: 3%;
+  flex: 0 1 auto;
+}
