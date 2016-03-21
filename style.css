@@ -102,13 +102,20 @@ a:hover {
   display: flex;
 }
 
+.triple-content div:nth-child(odd){
+    background-color: lightblue;
+}
+
 .mini-content {
   width: 30%;
   margin: 3%;
+  padding: 15px;
   flex: 0 1 auto;
+  border-radius: 8px;
 }
 
 .why-div {
   width: 55%;
   margin: auto;
+  /*background-color: lightblue;*/
 }
