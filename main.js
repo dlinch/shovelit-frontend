@@ -25,7 +25,7 @@ function getSecret() {
     type: 'GET',
     url: 'https://skyffel.herokuapp.com/secret',
     headers: {
-      Authorization: 'Bearer' + localStorage.token
+      Authorization: 'Bearer ' + localStorage.token
     }
   }).done(function(result){
     console.log(result)
