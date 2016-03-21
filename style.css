@@ -1,14 +1,22 @@
+/* Body Styling */
+
 @import url(https://fonts.googleapis.com/css?family=Titillium+Web);
 
-body {
+body, html {
   font-family: "Titillium Web";
   margin: 0px;
   padding: 0px;
   box-sizing: border-box;
+  text-align: center;
+
 }
 
+
+
+/* Header Styling */
+
 header {
-  height: 10px;
+  height: 0px;
   margin: 0px;
   padding: 0px;
 }
@@ -17,6 +25,10 @@ header > h3 {
   margin: 20px 25px;
   color: white;
 }
+
+
+
+/* Main Content/ CTA */
 
 .main-content > h1, .main-content > h2 {
   margin: 0px;
@@ -33,7 +45,7 @@ h1 {
   width: 100vw;
   height: 75vh;
   background-color: tomato;
-  background: url(assets/snow-house.jpg) no-repeat center/100%;
+  background: url(assets/dark-mountain.jpg) no-repeat center/100%;
   background-size: cover;
   text-align: center;
   color: whitesmoke;
@@ -56,10 +68,9 @@ font-size: 1em
 }
 
 button {
-  /*margin: auto 0px auto 300px;*/
   padding: 5px 30px;
-  background-color: firebrick;
-  color: whitesmoke;
+  background-color: tomato;
+  color: white;
   font-size: 1em;
   border-radius: 4px;
   transition-duration: .4s;
@@ -67,12 +78,26 @@ button {
 }
 
 button:hover{
-  background-color: coral;
+  background-color: pink;
 }
 
-body {
-  text-align: center;
+
+
+/* Link Styling */
+
+a:visited, a {
+  text-decoration: none;
+  color: white;
 }
+
+a:hover {
+  color: lightblue;
+}
+
+
+
+/* Secondary Content Styling */
+
 .triple-content{
   display: flex;
 }
@@ -81,4 +106,9 @@ body {
   width: 30%;
   margin: 3%;
   flex: 0 1 auto;
+}
+
+.why-div {
+  width: 55%;
+  margin: auto;
 }
