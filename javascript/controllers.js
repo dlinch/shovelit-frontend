@@ -87,6 +87,7 @@ app.controller('DashboardController', function($scope, $http){
       }
     }).then(function(data){
       console.log(data)
+      $scope.editFormBoolean = !$scope.editFormBoolean;
     }).catch(function(error){
       console.log(error)
     })
@@ -100,10 +101,61 @@ app.controller('DashboardController', function($scope, $http){
 })
 
 app.controller('ShovelboardController', function($scope, $http){
-  $http.get('https://skyffel.herokuapp.com/jobs').then(function(jobs){
+  $scope.token = atob(localStorage.token.split('.')[1]);
+  $scope.token = JSON.parse($scope.token)
+  console.log($scope.token.user.id);
+  $scope.userID = $scope.token.user.id;
+  $http.get('https://skyffel.herokuapp.com/jobs/available/'+$scope.userID).then(function(jobs){
+    console.log(jobs.data)
     $scope.newJobs = jobs.data;
   })
+
+  $scope.acceptedJobs = [];
+
+  $http.get('https://skyffel.herokuapp.com/jobs/currentjobs/'+$scope.userID).then(function(jobs){
+    console.log(jobs.data)
+    if(jobs.data){
+      $scope.acceptedJobs = jobs.data;
+    }
+  })
   $scope.acceptJob = function(job){
-    console.log(job.address)
+    $http({
+      method: 'PUT',
+      url: 'https://skyffel.herokuapp.com/jobs/accept/'+ job.id +'/'+$scope.userID
+    }).then(function(data){
+      console.log(data);
+      $scope.acceptedJobs.push(job)
+      var index = $scope.newJobs.indexOf(job);
+      $scope.newJobs.splice(index, 1);
+
+    }).catch(function(error){
+      console.log(error);
+    })
+  }
+
+  $scope.completeJob = function(job){
+    $http({
+      method: 'PUT',
+      url: 'https://skyffel.herokuapp.com/jobs/complete/'+ job.id,
+    }).then(function(data){
+      // SOMETHING THAT TRIGGERS PAYMENT
+      var index = $scope.acceptedJobs.indexOf(job);
+      $scope.acceptedJobs.splice(index, 1);
+    }).catch(function(error){
+      console.log(error);
+    })
+  }
+
+  $scope.unacceptJob = function(job){
+    $http({
+      method: 'PUT',
+      url: 'https://skyffel.herokuapp.com/jobs/unaccept/'+ job.id,
+    }).then(function(data){
+      console.log(data);
+      $scope.newJobs.push(job)
+      var index = $scope.acceptedJobs.indexOf(job);
+      $scope.acceptedJobs.splice(index, 1);
+
+    }
   }
 })

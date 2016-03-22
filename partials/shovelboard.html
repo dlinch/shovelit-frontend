@@ -6,3 +6,11 @@
   {{job.time}}
   <button ng-click="acceptJob(job)">Accept Job</button>
 </div>
+
+<h2>Accepted Jobs</h2>
+<div ng-repeat="job in acceptedJobs">
+  {{job.address}}
+  {{job.type}}
+  <button ng-click="completeJob(job)">Complete</button>
+  <button ng-click="unacceptJob(job)">Unaccept</button>
+</div>
