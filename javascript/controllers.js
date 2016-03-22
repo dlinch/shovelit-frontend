@@ -51,6 +51,11 @@ app.controller('DashboardController', function($scope, $http){
     $scope.jobs = jobs.data;
   })
 
+  $http.get('https://skyffel.herokuapp.com/jobs/completedjobs'+$scope.userID).then(function(jobs){
+    console.log(jobs);
+    $scope.jobsToBePaid = jobs.data;
+  })
+
   $scope.job = {};
   $scope.job.type = 'house';
 
@@ -110,6 +115,8 @@ app.controller('DashboardController', function($scope, $http){
       console.log(data);
     })
   }
+
+
 })
 
 app.controller('ShovelboardController', function($scope, $http){

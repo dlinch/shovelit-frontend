@@ -48,3 +48,20 @@
 
   <button ng-click="toggleEdit()">Edit Job</button>
 </div>
+
+<div ng-repeat="job in jobsToBePaid">
+  {{job.address}}
+  <p>{{job.type}}</p>
+</div>
+
+<form action="http://" method="POST">
+  <script
+    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+    data-key="pk_test_ARP6jqMCyavHoZPG7PlmNkYd"
+    data-amount="2000"
+    data-name="Demo Site"
+    data-description="1 Shovel ($10.00)"
+    data-image="/128x128.png"
+    data-locale="auto">
+  </script>
+</form>
