@@ -9,4 +9,14 @@ app.config(function($routeProvider){
     templateUrl: 'partials/token.html',
     controller: 'TokenController'
   })
+  .when('/login', {
+    templateUrl: 'partials/login.html',
+    controller: 'LoginController'
+  }).when('/map', {
+    templateUrl: 'partials/map.html',
+    controller: 'MapController'
+  })
+  .otherwise({
+    redirectTo: '/'
+  })
 })
