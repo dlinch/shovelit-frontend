@@ -51,7 +51,7 @@ h1 {
   color: whitesmoke;
 }
 
-form {
+.emailForm {
   position: absolute;
   bottom: 200px;
   display: inline-block;

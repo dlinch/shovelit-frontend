@@ -20,9 +20,19 @@
   <button ng-click="jobSubmit()">Submit</button>
 </form>
 
-<button ng-click="myJobsBoolean = !myJobsBoolean">My Jobs</button>
-<div ng-repeat="job in jobs" ng-hide="myJobsBoolean">
-  {{job.address}}
-  {{job.type}}
-  {{job.time}}
+<h2>My Jobs</h2>
+<div ng-repeat="job in jobs">
+  <div>
+    <p>{{job.address}}</p>
+    <p>{{job.zipcode}}</p>
+    <p>{{job.type}}</p>
+  </div>
+  <form ng-show="editFormBoolean">
+    <input ng-model='job.address'/>
+    <input ng-model="job.type"/>
+    <input ng-model="job.zipcode"/>
+    <button ng-click="updateJob(job)">Save</button>
+  </form>
+
+  <button ng-click="toggleEdit()">Edit Job</button>
 </div>

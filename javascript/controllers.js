@@ -73,7 +73,30 @@ app.controller('DashboardController', function($scope, $http){
     })
   }
 
-  $scope.myJobsBoolean = false;
+  $scope.updateJob = function(job){
+    console.log('update!')
+    console.log(job);
+    job.zipcode
+    $http({
+      method: 'PUT',
+      url: 'https://skyffel.herokuapp.com/jobs/update/'+ job.id,
+      data: {
+        zipcode: parseInt(job.zipcode),
+        address: job.address,
+        property: job.type,
+      }
+    }).then(function(data){
+      console.log(data)
+    }).catch(function(error){
+      console.log(error)
+    })
+  }
+  $scope.editFormBoolean = false;
+
+  $scope.toggleEdit = function(){
+    $scope.editFormBoolean = !$scope.editFormBoolean;
+  }
+
 })
 
 app.controller('ShovelboardController', function($scope, $http){
