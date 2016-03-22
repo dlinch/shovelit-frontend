@@ -1,7 +1,9 @@
 var app = angular.module('skyffel', ['ngRoute'])
 
 app.run(function($http) {
-   $http.defaults.headers.common.Authorization = 'Bearer ' + localStorage.token;
+  if(localStorage.token){
+    $http.defaults.headers.common.Authorization = 'Bearer ' + localStorage.token;
+  }
  });
 
 
@@ -26,7 +28,11 @@ app.config(function($routeProvider){
     templateUrl: 'partials/dashboard.html',
     controller: 'DashboardController'
   })
+  .when('/shovelboard',{
+    templateUrl: 'partials/shovelboard.html',
+    controller: 'ShovelboardController'
+  })
   .otherwise({
-    redirectTo: '/'
+    redirectTo: '/login'
   })
 })

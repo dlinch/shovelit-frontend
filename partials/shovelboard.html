@@ -1,0 +1,8 @@
+<h1>Shovelboard</h1>
+<h2>New Jobs</h2>
+<div ng-repeat="job in newJobs">
+  {{job.address}}
+  {{job.type}}
+  {{job.time}}
+  <button ng-click="acceptJob(job)">Accept Job</button>
+</div>

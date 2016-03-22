@@ -41,17 +41,46 @@ app.controller('MapController', function($scope){
 })
 
 app.controller('DashboardController', function($scope, $http){
-  $http.get('https://skyffel.herokuapp.com/jobs').then(function(jobs){
+
+  $scope.token = atob(localStorage.token.split('.')[1]);
+  $scope.token = JSON.parse($scope.token)
+  console.log($scope.token.user.id);
+  $scope.userID = $scope.token.user.id;
+  $http.get('https://skyffel.herokuapp.com/jobs/myjobs/'+ $scope.userID).then(function(jobs){
     console.log(jobs);
     $scope.jobs = jobs.data;
   })
 
   $scope.job = {};
   $scope.job.type = 'house';
+
   $scope.jobSubmit = function(){
     console.log($scope.job)
-
+    $http({
+      method: 'POST',
+      url: 'https://skyffel.herokuapp.com/jobs/new/' + $scope.userID,
+      data: {
+        property: $scope.job.type,
+        zipcode: $scope.job.zipcode,
+        address: $scope.job.address,
+      }
+    }).then(function(data){
+      $scope.job.id = data.data[0]
+      console.log(data)
+      $scope.jobs.push($scope.job)
+    }).catch(function(error){
+      console.log(error)
+    })
   }
 
   $scope.myJobsBoolean = false;
+})
+
+app.controller('ShovelboardController', function($scope, $http){
+  $http.get('https://skyffel.herokuapp.com/jobs').then(function(jobs){
+    $scope.newJobs = jobs.data;
+  })
+  $scope.acceptJob = function(job){
+    console.log(job.address)
+  }
 })
