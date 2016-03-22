@@ -121,29 +121,34 @@ app.controller('ShovelboardController', function($scope, $http){
   navigator.geolocation.getCurrentPosition(function(position) {
       $scope.currentLat = position.coords.latitude.toString();
       $scope.currentLong = position.coords.longitude.toString();
-    })
+      $http({
+          method: 'GET',
+          url:'https://maps.googleapis.com/maps/api/geocode/json?latlng='+$scope.currentLat+','+$scope.currentLong+'&key='+apikey,
+          headers: {
+              'Accept': 'application/json, text/javascript, /; q=0.01',
+              'Content-Type': 'application/json; charset=utf-8',
+          }
+      }).success(function(data, status){
+        $scope.location = parseInt(data.results[5].address_components[0].long_name) || 80021;
+        $scope.radius = 20;
 
-    $http({
-        method: 'GET',
-        url:'https://maps.googleapis.com/maps/api/geocode/json?latlng='+$scope.currentLat+','+$scope.currentLong+'&key='+apikey,
-        headers: {
-            'Accept': 'application/json, text/javascript, /; q=0.01',
-            'Content-Type': 'application/json; charset=utf-8',
-        }
-    }).success(function(data, status){
-      console.log(data);
+        console.log(data.results[5].address_components[0].long_name);
+        $http.get('https://skyffel.herokuapp.com/jobs/available/'+$scope.userID+'/'+$scope.radius+'/'+$scope.location).then(function(jobs){
+          console.log(jobs.data)
+          if(jobs.data){
+            $scope.newJobs = jobs.data;
+          }
+          // else {
+          //   $scope.newJobs = false;
+          // }
+        })
+
+      })
     })
-  $scope.location = 80205;
-  $scope.radius = 20;
-  $http.get('https://skyffel.herokuapp.com/jobs/available/'+$scope.userID+'/'+$scope.radius+'/'+$scope.location).then(function(jobs){
-    console.log(jobs.data)
-    if(jobs.data){
-      $scope.newJobs = jobs.data;
-    }
-    // else {
-    //   $scope.newJobs = false;
-    // }
-  })
+    delete $http.defaults.headers.common.Authorization
+
+
+
 
   $scope.acceptedJobs = [];
 
