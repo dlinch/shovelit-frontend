@@ -40,6 +40,18 @@ app.controller('MapController', function($scope){
 
 })
 
-app.controller('DashboardController', function($scope){
-  
+app.controller('DashboardController', function($scope, $http){
+  $http.get('https://skyffel.herokuapp.com/jobs').then(function(jobs){
+    console.log(jobs);
+    $scope.jobs = jobs.data;
+  })
+
+  $scope.job = {};
+  $scope.job.type = 'house';
+  $scope.jobSubmit = function(){
+    console.log($scope.job)
+
+  }
+
+  $scope.myJobsBoolean = false;
 })

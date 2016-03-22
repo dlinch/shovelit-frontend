@@ -1,0 +1,27 @@
+<h1>Dashboard</h1>
+
+
+<form>
+  <h2>New job.</h2>
+  <input placeholder="Address" ng-model="job.address"/>
+  <input placeholder="Zipcode" ng-model="job.zipcode"/>
+  <select ng-model="job.type">
+    <option value="house" ng-selected="true">
+      House
+    </option>
+    <option value="lot">
+      Parking Lot
+    </option>
+    <option value="street">
+      Street
+    </option>
+  </select>
+  <button ng-click="jobSubmit()">Submit</button>
+</form>
+
+<button ng-click="myJobsBoolean = !myJobsBoolean">My Jobs</button>
+<div ng-repeat="job in jobs" ng-hide="myJobsBoolean">
+  {{job.address}}
+  {{job.type}}
+  {{job.time}}
+</div>
