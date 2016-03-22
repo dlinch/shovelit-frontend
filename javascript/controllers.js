@@ -156,6 +156,6 @@ app.controller('ShovelboardController', function($scope, $http){
       var index = $scope.acceptedJobs.indexOf(job);
       $scope.acceptedJobs.splice(index, 1);
 
-    }
+    })
   }
 })
