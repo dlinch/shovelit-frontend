@@ -7,7 +7,8 @@ app.controller('TokenController', function($scope, $http, $routeParams, $locatio
   console.log($routeParams.token);
   var token = $routeParams.token
   localStorage.token = token;
-  $location.url('/')
+  $http.defaults.headers.common.Authorization = 'Bearer ' + localStorage.token;
+  $location.url('/dashboard')
 })
 
 app.controller('LoginController', function($scope, $http){
@@ -37,4 +38,8 @@ app.controller('LoginController', function($scope, $http){
 
 app.controller('MapController', function($scope){
 
+})
+
+app.controller('DashboardController', function($scope){
+  
 })

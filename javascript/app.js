@@ -1,5 +1,10 @@
 var app = angular.module('skyffel', ['ngRoute'])
 
+app.run(function($http) {
+   $http.defaults.headers.common.Authorization = 'Bearer ' + localStorage.token;
+ });
+
+
 app.config(function($routeProvider){
   $routeProvider.when('/', {
     templateUrl: 'partials/home.html',
@@ -12,9 +17,14 @@ app.config(function($routeProvider){
   .when('/login', {
     templateUrl: 'partials/login.html',
     controller: 'LoginController'
-  }).when('/map', {
+  })
+  .when('/map', {
     templateUrl: 'partials/map.html',
     controller: 'MapController'
+  })
+  .when('/dashboard', {
+    templateUrl: 'partials/dashboard.html',
+    controller: 'DashboardController'
   })
   .otherwise({
     redirectTo: '/'
