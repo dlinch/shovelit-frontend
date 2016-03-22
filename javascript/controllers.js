@@ -117,11 +117,32 @@ app.controller('ShovelboardController', function($scope, $http){
   $scope.token = JSON.parse($scope.token)
   console.log($scope.token.user.id);
   $scope.userID = $scope.token.user.id;
-  $scope.location = 80021;
+
+  navigator.geolocation.getCurrentPosition(function(position) {
+      $scope.currentLat = position.coords.latitude.toString();
+      $scope.currentLong = position.coords.longitude.toString();
+    })
+
+    $http({
+        method: 'GET',
+        url:'https://maps.googleapis.com/maps/api/geocode/json?latlng='+$scope.currentLat+','+$scope.currentLong+'&key='+apikey,
+        headers: {
+            'Accept': 'application/json, text/javascript, /; q=0.01',
+            'Content-Type': 'application/json; charset=utf-8',
+        }
+    }).success(function(data, status){
+      console.log(data);
+    })
+  $scope.location = 80205;
   $scope.radius = 20;
   $http.get('https://skyffel.herokuapp.com/jobs/available/'+$scope.userID+'/'+$scope.radius+'/'+$scope.location).then(function(jobs){
     console.log(jobs.data)
-    $scope.newJobs = jobs.data;
+    if(jobs.data){
+      $scope.newJobs = jobs.data;
+    }
+    // else {
+    //   $scope.newJobs = false;
+    // }
   })
 
   $scope.acceptedJobs = [];

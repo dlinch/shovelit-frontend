@@ -13,6 +13,7 @@
     Street
   </option>
 </select></label>
+<h2 ng-hide="newJobs">No New Jobs</h2>
 <div ng-repeat="job in newJobs | filter:type.filter">
   {{job.address}}
   {{job.type}}
