@@ -3,7 +3,7 @@
 <h1>Dashboard</h1>
 
 <form>
-  <h2>New job.</h2>
+  <h2>New Job</h2>
   <input placeholder="Address" ng-model="job.address"/>
   <input placeholder="Zipcode" ng-model="job.zipcode"/>
   <select ng-model="job.type">
@@ -23,15 +23,27 @@
 <h2>My Jobs</h2>
 <div ng-repeat="job in jobs">
   <div>
-    <p>{{job.address}}</p>
-    <p>{{job.zipcode}}</p>
+    <p>{{job.address + " " + job.zipcode}}</p>
+    <!-- <p>{{job.zipcode}}</p> -->
     <p>{{job.type}}</p>
+    <p ng-show="job.shoveler_id">Someone's On Their Way!</p>
   </div>
   <form ng-show="editFormBoolean">
     <input ng-model='job.address'/>
-    <input ng-model="job.type"/>
+    <select ng-model="job.type">
+      <option value="house" ng-selected="">
+        House
+      </option>
+      <option value="lot">
+        Parking Lot
+      </option>
+      <option value="street">
+        Street
+      </option>
+    </select>
     <input ng-model="job.zipcode"/>
     <button ng-click="updateJob(job)">Save</button>
+    <button ng-click="deleteJob(job)">Delete</button>
   </form>
 
   <button ng-click="toggleEdit()">Edit Job</button>

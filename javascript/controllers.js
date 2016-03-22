@@ -98,6 +98,18 @@ app.controller('DashboardController', function($scope, $http){
     $scope.editFormBoolean = !$scope.editFormBoolean;
   }
 
+  $scope.deleteJob = function(job){
+    $http({
+      method: 'DELETE',
+      url: 'https://skyffel.herokuapp.com/jobs/delete/'+ job.id,
+    }).then(function(data){
+      console.log(data)
+      var index = $scope.jobs.indexOf(job);
+      $scope.jobs.splice(index, 1);
+    }).catch(function(data){
+      console.log(data);
+    })
+  }
 })
 
 app.controller('ShovelboardController', function($scope, $http){
@@ -105,7 +117,9 @@ app.controller('ShovelboardController', function($scope, $http){
   $scope.token = JSON.parse($scope.token)
   console.log($scope.token.user.id);
   $scope.userID = $scope.token.user.id;
-  $http.get('https://skyffel.herokuapp.com/jobs/available/'+$scope.userID).then(function(jobs){
+  $scope.location = 80021;
+  $scope.radius = 20;
+  $http.get('https://skyffel.herokuapp.com/jobs/available/'+$scope.userID+'/'+$scope.radius+'/'+$scope.location).then(function(jobs){
     console.log(jobs.data)
     $scope.newJobs = jobs.data;
   })

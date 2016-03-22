@@ -2,7 +2,18 @@
 
 <h1>Shovelboard</h1>
 <h2>New Jobs</h2>
-<div ng-repeat="job in newJobs">
+<label>Filter By:<select ng-model="type.filter">
+  <option value="house" >
+    House
+  </option>
+  <option value="lot">
+    Parking Lot
+  </option>
+  <option value="street">
+    Street
+  </option>
+</select></label>
+<div ng-repeat="job in newJobs | filter:type.filter">
   {{job.address}}
   {{job.type}}
   {{job.time}}
