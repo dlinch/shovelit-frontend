@@ -1,30 +1,34 @@
-<h3><a href="#/dashboard">Dashboard</a></h3>
+<img src="../assets/default.gif" ng-if="waiting"/>
 
-<h1>Shovelboard</h1>
-<h2>New Jobs</h2>
-<label>Filter By:<select ng-model="type.filter">
-  <option value="house" >
-    House
-  </option>
-  <option value="lot">
-    Parking Lot
-  </option>
-  <option value="street">
-    Street
-  </option>
-</select></label>
-<h2 ng-hide="newJobs">No New Jobs</h2>
-<div ng-repeat="job in newJobs | filter:type.filter">
-  {{job.address}}
-  {{job.type}}
-  {{job.time}}
-  <button ng-click="acceptJob(job)">Accept Job</button>
-</div>
+<div ng-if="!waiting">
+  <h3><a href="#/dashboard">Dashboard</a></h3>
+  <h1>Shovelboard</h1>
+  <h2>New Jobs</h2>
+  <label>Filter By:<select ng-model="type.filter">
+    <option value="house" >
+      House
+    </option>
+    <option value="lot">
+      Parking Lot
+    </option>
+    <option value="street">
+      Street
+    </option>
+  </select></label>
+  <h2 ng-hide="newJobs">No New Jobs</h2>
+  <div ng-repeat="job in newJobs | filter:type.filter">
+    {{job.address}}
+    {{job.type}}
+    <span am-time-ago="job.time"></span>
+    <button ng-click="acceptJob(job)">Accept Job</button>
+  </div>
 
-<h2>Accepted Jobs</h2>
-<div ng-repeat="job in acceptedJobs">
-  {{job.address}}
-  {{job.type}}
-  <button ng-click="completeJob(job)">Complete</button>
-  <button ng-click="unacceptJob(job)">Unaccept</button>
+  <h2>Accepted Jobs</h2>
+  <div ng-repeat="job in acceptedJobs">
+    {{job.address}}
+    {{job.type}}
+    <span am-time-ago="job.time"></span>
+    <button ng-click="completeJob(job)">Complete</button>
+    <button ng-click="unacceptJob(job)">Unaccept</button>
+  </div>
 </div>

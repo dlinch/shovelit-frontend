@@ -46,9 +46,11 @@ app.controller('DashboardController', function($scope, $http){
   $scope.token = JSON.parse($scope.token)
   console.log($scope.token.user.id);
   $scope.userID = $scope.token.user.id;
+  $scope.waiting = true;
   $http.get('https://skyffel.herokuapp.com/jobs/myjobs/'+ $scope.userID).then(function(jobs){
     console.log(jobs);
     $scope.jobs = jobs.data;
+    $scope.waiting = false;
   })
 
   $http.get('https://skyffel.herokuapp.com/jobs/completedjobs/'+$scope.userID).then(function(jobs){
@@ -117,7 +119,41 @@ app.controller('DashboardController', function($scope, $http){
   }
 
 
+
+  $scope.showNewJobBool=false;
+  $scope.showMyJobsBool=true;
+  $scope.showToBePaidBool=false;
+
+  $scope.showNewJob = function(){
+    $scope.showNewJobBool=true;
+    $scope.showMyJobsBool=false;
+    $scope.showToBePaidBool=false;
+  }
+
+  $scope.showMyJobs = function(){
+    $scope.showNewJobBool=false;
+    $scope.showMyJobsBool=true;
+    $scope.showToBePaidBool=false;
+  }
+
+  $scope.showToBePaid = function(){
+    $scope.showNewJobBool=false;
+    $scope.showMyJobsBool=false;
+    $scope.showToBePaidBool=true;
+  }
+
+
+  $scope.waiting = false;
+
+
+
 })
+
+
+
+
+
+
 
 app.controller('ShovelboardController', function($scope, $http){
   $scope.token = atob(localStorage.token.split('.')[1]);
@@ -125,6 +161,7 @@ app.controller('ShovelboardController', function($scope, $http){
   console.log($scope.token.user.id);
   $scope.userID = $scope.token.user.id;
 
+  $scope.waiting = true;
   navigator.geolocation.getCurrentPosition(function(position) {
       $scope.currentLat = position.coords.latitude.toString();
       $scope.currentLong = position.coords.longitude.toString();
@@ -143,6 +180,7 @@ app.controller('ShovelboardController', function($scope, $http){
         console.log(data.results[5].address_components[0].long_name);
         $http.get('https://skyffel.herokuapp.com/jobs/available/'+$scope.userID+'/'+$scope.radius+'/'+$scope.location).then(function(jobs){
           console.log(jobs.data)
+          $scope.waiting=false;
           if(jobs.data){
             $scope.newJobs = jobs.data;
           }
@@ -213,10 +251,11 @@ app.controller('PayController', function($scope, $http, $routeParams){
 
   $http.get('https://skyffel.herokuapp.com/jobs/'+$scope.jobID).then(function(job){
     console.log(job.data)
-    if(jobs.data){
+    if(job.data){
       $scope.job = job.data;
     }
-  }).then(function(){
+    return job.data
+  }).then(function(job){
     if (job.type=="house"){
       $scope.house = true;
     } else if(job.type=="lot"){
