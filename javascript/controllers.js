@@ -183,8 +183,8 @@ app.controller('ShovelboardController', function($scope, $http){
           }
       }).success(function(data, status){
         console.log(data.results[0].address_components[0].long_name)
-        $scope.location = data.results[0].address_components[0].long_name || 80021;
-        $scope.radius = 20;
+        $scope.location = data.results[0].address_components[0].long_name.blah || 80202;
+        $scope.radius = 30;
 
         $http.get('https://skyffel.herokuapp.com/jobs/available/'+$scope.userID+'/'+$scope.radius+'/'+$scope.location).then(function(jobs){
           console.log(jobs.data)
@@ -253,59 +253,119 @@ app.controller('ShovelboardController', function($scope, $http){
 
 app.controller('PayController', function($scope, $http, $routeParams, $sce, $location){
   $scope.jobID = $routeParams.jobID
-  $scope.house = false;
-  $scope.lot = false;
-  $scope.street = false;
+  // $scope.house = false;
+  // $scope.lot = false;
+  // $scope.street = false;
+
 
   $http.get('https://skyffel.herokuapp.com/jobs/'+$scope.jobID).then(function(job){
     console.log(job.data)
 
+      if (job.data.type=='house'){
+        var handler = StripeCheckout.configure({
+      key: 'pk_test_ARP6jqMCyavHoZPG7PlmNkYd',
+      image: '/img/documentation/checkout/marketplace.png',
+      locale: 'auto',
+      token: function(token) {
+        $http({
+          method: 'POST',
+          url: "https://skyffel.herokuapp.com/stripe/"+$scope.jobID,
+          data: {
+            stripeToken: token
+          }
+        }).then(function(){
+          $location.url('dashboard')
+        }).catch(function(){
+          $location.url('dashboard')
+        })
+        // Use the token to create the charge with a server-side script.
+        // You can access the token ID with `token.id`
+      }
+    });
 
+    handler.open({
+      name: 'Skyffel',
+      description: '1 House Shovel',
+      amount: 1000
+    });
+      }
 
-
-
-      var handler = StripeCheckout.configure({
-    key: 'pk_test_ARP6jqMCyavHoZPG7PlmNkYd',
-    image: '/img/documentation/checkout/marketplace.png',
-    locale: 'auto',
-    token: function(token) {
-      $http({
-        method: 'POST',
-        url: "https://skyffel.herokuapp.com/stripe/"+$scope.jobID,
-        data: {
-          stripeToken: token
+      else if (job.data.type=='lot'){
+        var handler = StripeCheckout.configure({
+        key: 'pk_test_ARP6jqMCyavHoZPG7PlmNkYd',
+        image: '/img/documentation/checkout/marketplace.png',
+        locale: 'auto',
+        token: function(token) {
+        $http({
+          method: 'POST',
+          url: "https://skyffel.herokuapp.com/stripe/"+$scope.jobID,
+          data: {
+            stripeToken: token
+          }
+        }).then(function(){
+          $location.url('dashboard')
+        }).catch(function(){
+          $location.url('dashboard')
+        })
+        // Use the token to create the charge with a server-side script.
+        // You can access the token ID with `token.id`
         }
-      }).then(function(){
-        $location.url('dashboard')
-      }).catch(function(){
-        $location.url('dashboard')
-      })
-      // Use the token to create the charge with a server-side script.
-      // You can access the token ID with `token.id`
-    }
-  });
-
-  handler.open({
-    name: 'Skyffel',
-    description: '1 House',
-    amount: 1000
-  });
+        });
 
 
-    if(job.data){
-      $scope.job = job.data;
-      console.log($scope.job);
-      $scope.actionURLHouse = $sce.trustAsHtml('<form action="https://skyffel.herokuapp.com/stripe/'+$scope.jobID+'" method="POST"><script ng-src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="pk_test_ARP6jqMCyavHoZPG7PlmNkYd" data-amount="1000" data-name="Skyffel" data-description="House Shovel ($10.00)" data-image="/128x128.png" data-locale="auto"></script></form>');
-      $scope.actionURLLot = $sce.trustAsHtml('<form action="https://skyffel.herokuapp.com/stripe/'+$scope.jobID+'" method="POST"><script ng-src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="pk_test_ARP6jqMCyavHoZPG7PlmNkYd" data-amount="$50" data-name="Skyffel" data-description="Parking Lot Shovel ($50.00)" data-image="/128x128.png" data-locale="auto"></script></form>');
-      $scope.actionURLStreet = $sce.trustAsHtml('<form action="https://skyffel.herokuapp.com/stripe/'+$scope.jobID+'" method="POST"><script ng-src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="pk_test_ARP6jqMCyavHoZPG7PlmNkYd" data-amount="$100" data-name="Skyffel" data-description="Street Shovel ($100.00)" data-image="/128x128.png" data-locale="auto"></script></form>');
+        handler.open({
+        name: 'Skyffel',
+        description: '1 Lot Shovel',
+        amount: 5000
+        });
+
+      }
+
+      else if (job.data.type=='street'){
+        var handler = StripeCheckout.configure({
+      key: 'pk_test_ARP6jqMCyavHoZPG7PlmNkYd',
+      image: '/img/documentation/checkout/marketplace.png',
+      locale: 'auto',
+      token: function(token) {
+        $http({
+          method: 'POST',
+          url: "https://skyffel.herokuapp.com/stripe/"+$scope.jobID,
+          data: {
+            stripeToken: token
+          }
+        }).then(function(){
+          $location.url('dashboard')
+        }).catch(function(){
+          $location.url('dashboard')
+        })
+        // Use the token to create the charge with a server-side script.
+        // You can access the token ID with `token.id`
+      }
+    });
+
+    handler.open({
+      name: 'Skyffel',
+      description: '1 Street Shovel',
+      amount: 10000
+    });
     }
-  }).then(function(){
-    if ($scope.job.type=="house"){
-      $scope.house = true;
-    } else if($scope.job.type=="lot"){
-      $scope.lot = true;
-    } else if($scope.job.type=="street"){
-      $scope.street = true;
-    }
-  })
+
+    // if(job.data){
+    //   $scope.job = job.data;
+    //   console.log($scope.job);
+    //   $scope.actionURLHouse = $sce.trustAsHtml('<form action="https://skyffel.herokuapp.com/stripe/'+$scope.jobID+'" method="POST"><script ng-src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="pk_test_ARP6jqMCyavHoZPG7PlmNkYd" data-amount="1000" data-name="Skyffel" data-description="House Shovel ($10.00)" data-image="/128x128.png" data-locale="auto"></script></form>');
+    //   $scope.actionURLLot = $sce.trustAsHtml('<form action="https://skyffel.herokuapp.com/stripe/'+$scope.jobID+'" method="POST"><script ng-src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="pk_test_ARP6jqMCyavHoZPG7PlmNkYd" data-amount="$50" data-name="Skyffel" data-description="Parking Lot Shovel ($50.00)" data-image="/128x128.png" data-locale="auto"></script></form>');
+    //   $scope.actionURLStreet = $sce.trustAsHtml('<form action="https://skyffel.herokuapp.com/stripe/'+$scope.jobID+'" method="POST"><script ng-src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="pk_test_ARP6jqMCyavHoZPG7PlmNkYd" data-amount="$100" data-name="Skyffel" data-description="Street Shovel ($100.00)" data-image="/128x128.png" data-locale="auto"></script></form>');
+    // }
+
+})
+  // .then(function(){
+  //   if ($scope.job.type=="house"){
+  //     $scope.house = true;
+  //   } else if($scope.job.type=="lot"){
+  //     $scope.lot = true;
+  //   } else if($scope.job.type=="street"){
+  //     $scope.street = true;
+  //   }
+  // })
 })
