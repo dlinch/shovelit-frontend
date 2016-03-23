@@ -4,7 +4,7 @@ app.controller('HomeController', function($scope, $http){
 
 app.controller('TokenController', function($scope, $http, $routeParams, $location){
 
-  console.log($routeParams.token);
+  // console.log($routeParams.token);
   var token = $routeParams.token
   localStorage.token = token;
   $http.defaults.headers.common.Authorization = 'Bearer ' + localStorage.token;
@@ -12,7 +12,7 @@ app.controller('TokenController', function($scope, $http, $routeParams, $locatio
 })
 
 app.controller('LoginController', function($scope, $http){
-  console.log('LoginController')
+  // console.log('LoginController')
   $scope.facebook = function(){
     $http.get('https://skyffel.herokuapp.com/auth/facebook').then(function(result){
       console.log(result.data.token);
@@ -45,17 +45,17 @@ app.controller('DashboardController', function($scope, $http){
 
   $scope.token = atob(localStorage.token.split('.')[1]);
   $scope.token = JSON.parse($scope.token)
-  console.log($scope.token.user.id);
+  // console.log($scope.token.user.id);
   $scope.userID = $scope.token.user.id;
   $scope.waiting = true;
   $http.get('https://skyffel.herokuapp.com/jobs/myjobs/'+ $scope.userID).then(function(jobs){
-    console.log(jobs);
+    // console.log(jobs);
     $scope.jobs = jobs.data;
     $scope.waiting = false;
   })
 
   $http.get('https://skyffel.herokuapp.com/jobs/completedjobs/'+$scope.userID).then(function(jobs){
-    console.log(jobs);
+    // console.log(jobs);
     $scope.jobsToBePaid = jobs.data;
   })
 
@@ -74,7 +74,7 @@ app.controller('DashboardController', function($scope, $http){
       }
     }).then(function(data){
       $scope.job.id = data.data[0]
-      console.log(data)
+      // console.log(data)
       $scope.jobs.push($scope.job)
     }).catch(function(error){
       console.log(error)
@@ -82,8 +82,8 @@ app.controller('DashboardController', function($scope, $http){
   }
 
   $scope.updateJob = function(job){
-    console.log('update!')
-    console.log(job);
+    // console.log('update!')
+    // console.log(job);
     job.zipcode
     $http({
       method: 'PUT',
@@ -108,7 +108,7 @@ app.controller('DashboardController', function($scope, $http){
       method: 'DELETE',
       url: 'https://skyffel.herokuapp.com/jobs/delete/'+ job.id,
     }).then(function(data){
-      console.log(data)
+      // console.log(data)
       var index = $scope.jobs.indexOf(job);
       $scope.jobs.splice(index, 1);
     }).catch(function(data){
@@ -156,7 +156,7 @@ app.controller('ShovelboardController', function($scope, $http){
 
   $scope.token = atob(localStorage.token.split('.')[1]);
   $scope.token = JSON.parse($scope.token)
-  console.log($scope.token.user.id);
+  // console.log($scope.token.user.id);
   $scope.userID = $scope.token.user.id;
 
   $scope.waiting = true;
@@ -172,12 +172,12 @@ app.controller('ShovelboardController', function($scope, $http){
               'Content-Type': 'application/json; charset=utf-8',
           }
       }).success(function(data, status){
-        console.log(data.results[0].address_components[0].long_name)
+        // console.log(data.results[0].address_components[0].long_name)
         $scope.location = data.results[0].address_components[0].long_name || 80021;
         $scope.radius = 20;
 
         $http.get('https://skyffel.herokuapp.com/jobs/available/'+$scope.userID+'/'+$scope.radius+'/'+$scope.location).then(function(jobs){
-          console.log(jobs.data)
+          // console.log(jobs.data)
           $scope.waiting=false;
           if(jobs.data){
             $scope.newJobs = jobs.data;
@@ -194,7 +194,7 @@ app.controller('ShovelboardController', function($scope, $http){
   $scope.acceptedJobs = [];
 
   $http.get('https://skyffel.herokuapp.com/jobs/currentjobs/'+$scope.userID).then(function(jobs){
-    console.log(jobs.data)
+    // console.log(jobs.data)
     if(jobs.data){
       $scope.acceptedJobs = jobs.data;
     }
@@ -204,7 +204,7 @@ app.controller('ShovelboardController', function($scope, $http){
       method: 'PUT',
       url: 'https://skyffel.herokuapp.com/jobs/accept/'+ job.id +'/'+$scope.userID
     }).then(function(data){
-      console.log(data);
+      // console.log(data);
       $scope.acceptedJobs.push(job)
       var index = $scope.newJobs.indexOf(job);
       $scope.newJobs.splice(index, 1);
@@ -232,7 +232,7 @@ app.controller('ShovelboardController', function($scope, $http){
       method: 'PUT',
       url: 'https://skyffel.herokuapp.com/jobs/unaccept/'+ job.id,
     }).then(function(data){
-      console.log(data);
+      // console.log(data);
       $scope.newJobs.push(job)
       var index = $scope.acceptedJobs.indexOf(job);
       $scope.acceptedJobs.splice(index, 1);
@@ -248,7 +248,7 @@ app.controller('PayController', function($scope, $http, $routeParams, $sce){
   $scope.street = false;
 
   $http.get('https://skyffel.herokuapp.com/jobs/'+$scope.jobID).then(function(job){
-    console.log(job.data)
+    // console.log(job.data)
     if(job.data){
       $scope.job = job.data;
       $scope.actionURLHouse = $sce.trustAsHtml('<form action="https://skyffel.herokuapp.com/stripe/'+$scope.jobID+'" method="POST"><script src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="pk_test_ARP6jqMCyavHoZPG7PlmNkYd" data-amount="1000" data-name="Skyffel" data-description="House Shovel ($10.00)" data-image="/128x128.png" data-locale="auto"></script></form>');
