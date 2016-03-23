@@ -42,6 +42,7 @@ app.controller('MapController', function($scope){
 
 app.controller('DashboardController', function($scope, $http){
 
+
   $scope.token = atob(localStorage.token.split('.')[1]);
   $scope.token = JSON.parse($scope.token)
   console.log($scope.token.user.id);
@@ -62,7 +63,7 @@ app.controller('DashboardController', function($scope, $http){
   $scope.job.type = 'house';
 
   $scope.jobSubmit = function(){
-    console.log($scope.job)
+    // console.log($scope.job)
     $http({
       method: 'POST',
       url: 'https://skyffel.herokuapp.com/jobs/new/' + $scope.userID,
@@ -156,6 +157,8 @@ app.controller('DashboardController', function($scope, $http){
 
 
 app.controller('ShovelboardController', function($scope, $http){
+
+
   $scope.token = atob(localStorage.token.split('.')[1]);
   $scope.token = JSON.parse($scope.token)
   console.log($scope.token.user.id);
@@ -243,7 +246,7 @@ app.controller('ShovelboardController', function($scope, $http){
   }
 })
 
-app.controller('PayController', function($scope, $http, $routeParams){
+app.controller('PayController', function($scope, $http, $routeParams, $sce){
   $scope.jobID = $routeParams.jobID
   $scope.house = false;
   $scope.lot = false;
@@ -253,6 +256,9 @@ app.controller('PayController', function($scope, $http, $routeParams){
     console.log(job.data)
     if(job.data){
       $scope.job = job.data;
+      $scope.actionURLHouse = $sce.trustAsHtml('<form action="https://skyffel.herokuapp.com/stripe/'+$scope.jobID+'" method="POST"><script src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="pk_test_ARP6jqMCyavHoZPG7PlmNkYd" data-amount="1000" data-name="Skyffel" data-description="House Shovel ($10.00)" data-image="/128x128.png" data-locale="auto"></script></form>');
+      $scope.actionURLLot = $sce.trustAsHtml('<form action="https://skyffel.herokuapp.com/stripe/'+$scope.jobID+'" method="POST"><script src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="pk_test_ARP6jqMCyavHoZPG7PlmNkYd" data-amount="$50" data-name="Skyffel" data-description="Parking Lot Shovel ($50.00)" data-image="/128x128.png" data-locale="auto"></script></form>');
+      $scope.actionURLStreet = $sce.trustAsHtml('<form action="https://skyffel.herokuapp.com/stripe/'+$scope.jobID+'" method="POST"><script src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="pk_test_ARP6jqMCyavHoZPG7PlmNkYd" data-amount="$100" data-name="Skyffel" data-description="Street Shovel ($100.00)" data-image="/128x128.png" data-locale="auto"></script></form>');
     }
     return job.data
   }).then(function(job){

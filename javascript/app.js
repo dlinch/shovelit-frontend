@@ -1,4 +1,4 @@
-var app = angular.module('skyffel', ['ngRoute', 'angularMoment'])
+var app = angular.module('skyffel', ['ngRoute', 'angularMoment', 'ngSanitize'])
 
 app.run(function($http) {
   if(localStorage.token){
