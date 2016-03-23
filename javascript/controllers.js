@@ -36,7 +36,30 @@ app.controller('LoginController', function($scope, $http){
 })
 
 
-app.controller('MapController', function($scope){
+app.controller('MapController', function($scope, $http, $routeParams, $sce){
+  navigator.geolocation.getCurrentPosition(function(position) {
+      $scope.currentLat = position.coords.latitude.toString();
+      $scope.currentLong = position.coords.longitude.toString();
+      $scope.jobID = $routeParams.jobID
+      $http.get('https://skyffel.herokuapp.com/jobs/'+$scope.jobID).then(function(job){
+        $scope.jobAddress = job.data.address.split(" ");
+        $scope.jobAddress = $scope.jobAddress.join('+')
+        $scope.jobAddress = $scope.jobAddress + '+' + job.data.zipcode || 'Denver+CO'
+        console.log($scope.jobAddress);
+        $scope.latlng= $scope.currentLat+','+$scope.currentLong
+    // $scope.map= $sce.trustAsHtml("<iframe width='600' height='450' frameborder='0' style='border:0' ng-src='https://www.google.com/maps/embed/v1/directions?origin=Denver+C0&destination="+$scope.jobAddress+"&key="+apikey+" allowfullscreen></iframe>")
+      $scope.map={};
+      $scope.map.url="https://www.google.com/maps/embed/v1/directions?origin="+$scope.latlng+"&destination="+$scope.jobAddress+"&key=AIzaSyBNfDygTkW9Qwgwe2TlMtI_CHmeMNCyGh0"
+    })
+
+    })
+
+https://www.google.com/maps/embed/v1/directions?&origin=39.7576567-105.00727800000001&destination=1182+Dexter+St.+80205&key=AIzaSyBNfDygTkW9Qwgwe2TlMtI_CHmeMNCyGh0
+
+    $scope.trustSrc= function(src){
+      return $sce.trustAsResourceUrl(src);
+    }
+
 
 })
 
@@ -174,7 +197,7 @@ app.controller('ShovelboardController', function($scope, $http){
       }).success(function(data, status){
 
         console.log(data.results[0].address_components[0].long_name)
-        $scope.location = data.results[0].address_components[0].long_name.blah || 80205;
+        $scope.location = data.results[0].address_components[0].long_name.blah || 80202;
         $scope.radius = 30;
 
         $http.get('https://skyffel.herokuapp.com/jobs/available/'+$scope.userID+'/'+$scope.radius+'/'+$scope.location).then(function(jobs){
@@ -302,6 +325,7 @@ app.controller('PayController', function($scope, $http, $routeParams, $sce, $loc
         // You can access the token ID with `token.id`
         }
         });
+
 
         handler.open({
         name: 'Skyffel',
