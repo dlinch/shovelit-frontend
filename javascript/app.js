@@ -20,7 +20,7 @@ app.config(function($routeProvider){
     templateUrl: 'partials/login.html',
     controller: 'LoginController'
   })
-  .when('/map', {
+  .when('/map/:jobID', {
     templateUrl: 'partials/map.html',
     controller: 'MapController'
   })

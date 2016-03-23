@@ -36,7 +36,17 @@ app.controller('LoginController', function($scope, $http){
 })
 
 
-app.controller('MapController', function($scope){
+app.controller('MapController', function($scope, $http, $routeParams, $sce){
+
+$scope.jobID = $routeParams.jobID
+  $http.get('https://skyffel.herokuapp.com/jobs/'+$scope.jobID).then(function(job){
+    $scope.jobAddress = job.data.address.split(" ");
+    $scope.jobAddress = $scope.jobAddress.join('+')
+    $scope.jobAddress = $scope.jobAddress + '+' + job.data.zipcode || 'Denver+CO'
+    console.log($scope.jobAddress);
+    $scope.map= $sce.trustAsHtml("<iframe width='600' height='450' frameborder='0' style='border:0' ng-src='https://www.google.com/maps/embed/v1/directions?origin=Denver+C0&destination="+$scope.jobAddress+"&key="+apikey+" allowfullscreen></iframe>")
+
+  })
 
 })
 
@@ -276,7 +286,7 @@ app.controller('PayController', function($scope, $http, $routeParams, $sce, $loc
   });
 
   handler.open({
-    name: 'Skyffel.Com',
+    name: 'Skyffel',
     description: '1 House',
     amount: 1000
   });
