@@ -26,6 +26,21 @@ header > h3 {
   color: white;
 }
 
+.login {
+  position: absolute;
+  top: 50px;
+  display: inline-block;
+  right: 5%;
+}
+
+.login:visited, .login {
+  text-decoration: none;
+  color: white;
+}
+
+.login:hover {
+  color: lightblue;
+}
 
 
 /* Main Content/ CTA */
@@ -35,7 +50,7 @@ header > h3 {
   text-shadow: 1px 2px black;
 }
 
-h1 {
+.skyffel {
   font-size: 3em;
   padding-top: 80px;
   margin-bottom: 0px;
@@ -51,11 +66,11 @@ h1 {
   color: whitesmoke;
 }
 
-.emailForm {
+.main-content button {
   position: absolute;
   bottom: 200px;
   display: inline-block;
-  left: 450px;
+  right: 45%;
 }
 
 button, input {
@@ -77,6 +92,17 @@ button {
   box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
 }
 
+.signupButton {
+  font-size: 2em;
+  padding: 15px 30px;
+
+}
+
+.signupButton a:visited, .signupButton a{
+  color: white;
+  text-decoration: none;
+}
+
 button:hover{
   background-color: pink;
 }
@@ -87,12 +113,12 @@ button:hover{
 
 a:visited, a {
   text-decoration: none;
-  color: white;
+  color: black;
 }
 
-a:hover {
+/*a:hover {
   color: lightblue;
-}
+}*/
 
 
 
@@ -118,4 +144,47 @@ a:hover {
   width: 55%;
   margin: auto;
   /*background-color: lightblue;*/
+}
+
+/* Dashboard Styling */
+
+.dashboardContent {
+  border-top: 2px black solid;
+}
+
+.dashboardNav {
+  background-color: lightblue;
+  padding-bottom: 10px;
+}
+
+.dashNavItem {
+  display: inline-block;
+  margin: 10px 20px;
+  padding: 10px;
+}
+
+.jobsBox div:nth-child(even){
+    background-color: silver;
+}
+
+.jobsBox {
+  border-bottom: 1px black solid;
+
+}
+
+.myJob {
+  padding: 10px;
+  margin: 20px;
+  display: inline-block;
+}
+
+.payLink {
+  display: block;
+  font-size: 1.2em;
+  margin: auto;
+}
+
+.payLink a:visited, .payLink a{
+  color: white;
+  text-decoration: none;
 }

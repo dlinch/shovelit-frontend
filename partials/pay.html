@@ -1,6 +1,18 @@
 <h2>{{job.address}}</h2>
 <span am-time-ago="job.time"></span>
 
-<div ng-bind-html="actionURLHouse" ng-show="house"></div>
-<div ng-bind-html="actionURLLot" ng-show="lot"></div>
-<div ng-bind-html="actionURLStreet" ng-show="street"></div>
+<div ng-bind-html="actionURLHouse" ></div>
+<div ng-bind-html="actionURLLot" ></div>
+<div ng-bind-html="actionURLStreet" ></div>
+
+<form action="/charge" method="POST">
+  <script
+    ng-src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+    data-key="pk_test_ARP6jqMCyavHoZPG7PlmNkYd"
+    data-image="/img/documentation/checkout/marketplace.png"
+    data-name="skyffel.co"
+    data-description="2 widgets"
+    data-amount="2000"
+    data-locale="auto">
+  </script>
+</form>
