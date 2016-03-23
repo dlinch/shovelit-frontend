@@ -32,6 +32,10 @@ app.config(function($routeProvider){
     templateUrl: 'partials/shovelboard.html',
     controller: 'ShovelboardController'
   })
+  .when('/pay/:jobID', {
+    templateUrl: 'partials/pay.html',
+    controller: 'PayController'
+  })
   .otherwise({
     redirectTo: '/login'
   })

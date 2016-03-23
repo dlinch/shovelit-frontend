@@ -51,7 +51,7 @@ app.controller('DashboardController', function($scope, $http){
     $scope.jobs = jobs.data;
   })
 
-  $http.get('https://skyffel.herokuapp.com/jobs/completedjobs'+$scope.userID).then(function(jobs){
+  $http.get('https://skyffel.herokuapp.com/jobs/completedjobs/'+$scope.userID).then(function(jobs){
     console.log(jobs);
     $scope.jobsToBePaid = jobs.data;
   })
@@ -128,6 +128,7 @@ app.controller('ShovelboardController', function($scope, $http){
   navigator.geolocation.getCurrentPosition(function(position) {
       $scope.currentLat = position.coords.latitude.toString();
       $scope.currentLong = position.coords.longitude.toString();
+      delete $http.defaults.headers.common.Authorization
       $http({
           method: 'GET',
           url:'https://maps.googleapis.com/maps/api/geocode/json?latlng='+$scope.currentLat+','+$scope.currentLong+'&key='+apikey,
@@ -152,9 +153,6 @@ app.controller('ShovelboardController', function($scope, $http){
 
       })
     })
-    delete $http.defaults.headers.common.Authorization
-
-
 
 
   $scope.acceptedJobs = [];
@@ -205,4 +203,26 @@ app.controller('ShovelboardController', function($scope, $http){
 
     })
   }
+})
+
+app.controller('PayController', function($scope, $http, $routeParams){
+  $scope.jobID = $routeParams.jobID
+  $scope.house = false;
+  $scope.lot = false;
+  $scope.street = false;
+
+  $http.get('https://skyffel.herokuapp.com/jobs/'+$scope.jobID).then(function(job){
+    console.log(job.data)
+    if(jobs.data){
+      $scope.job = job.data;
+    }
+  }).then(function(){
+    if (job.type=="house"){
+      $scope.house = true;
+    } else if(job.type=="lot"){
+      $scope.lot = true;
+    } else if(job.type=="street"){
+      $scope.street = true;
+    }
+  })
 })

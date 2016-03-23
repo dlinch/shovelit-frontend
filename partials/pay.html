@@ -1,0 +1,37 @@
+<h2>{{job.address}}</h2>
+
+<form ng-show="house" action="https://skyffel.herokuapp.com/stripe" method="POST">
+  <script
+    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+    data-key="pk_test_ARP6jqMCyavHoZPG7PlmNkYd"
+    data-amount="1000"
+    data-name="Skyffel"
+    data-description="House Shovel ($10.00)"
+    data-image="/128x128.png"
+    data-locale="auto">
+  </script>
+</form>
+
+<form ng-show="lot" action="https://skyffel.herokuapp.com/stripe" method="POST">
+  <script
+    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+    data-key="pk_test_ARP6jqMCyavHoZPG7PlmNkYd"
+    data-amount="$50"
+    data-name="Skyffel"
+    data-description="Parking Lot Shovel ($50.00)"
+    data-image="/128x128.png"
+    data-locale="auto">
+  </script>
+</form>
+
+<form ng-show="street" action="https://skyffel.herokuapp.com/stripe" method="POST">
+  <script
+    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+    data-key="pk_test_ARP6jqMCyavHoZPG7PlmNkYd"
+    data-amount="$100"
+    data-name="Skyffel"
+    data-description="Street Shovel ($100.00)"
+    data-image="/128x128.png"
+    data-locale="auto">
+  </script>
+</form>

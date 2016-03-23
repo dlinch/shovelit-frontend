@@ -49,19 +49,41 @@
   <button ng-click="toggleEdit()">Edit Job</button>
 </div>
 
+<h2>To Be Paid</h2>
 <div ng-repeat="job in jobsToBePaid">
   {{job.address}}
   <p>{{job.type}}</p>
+  <a ng-href='#/pay/{{job.id}}'>Pay</a>
+
 </div>
 
-<form action="http://" method="POST">
-  <script
-    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-    data-key="pk_test_ARP6jqMCyavHoZPG7PlmNkYd"
-    data-amount="2000"
-    data-name="Demo Site"
-    data-description="1 Shovel ($10.00)"
-    data-image="/128x128.png"
-    data-locale="auto">
-  </script>
-</form>
+<!-- <script src="https://checkout.stripe.com/checkout.js"></script>
+
+<button id="customButton">Purchase</button>
+
+<script>
+  var handler = StripeCheckout.configure({
+    key: 'pk_test_ARP6jqMCyavHoZPG7PlmNkYd',
+    image: '/img/documentation/checkout/marketplace.png',
+    locale: 'auto',
+    token: function(token) {
+      // Use the token to create the charge with a server-side script.
+      // You can access the token ID with `token.id`
+    }
+  });
+
+  $('#customButton').on('click', function(e) {
+    // Open Checkout with further options
+    handler.open({
+      name: 'skyffel.co',
+      description: '2 widgets',
+      amount: 2000
+    });
+    e.preventDefault();
+  });
+
+  // Close Checkout on page navigation
+  $(window).on('popstate', function() {
+    handler.close();
+  });
+</script> -->
