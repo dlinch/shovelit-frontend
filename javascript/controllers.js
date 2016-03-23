@@ -102,9 +102,6 @@ app.controller('DashboardController', function($scope, $http){
   }
   $scope.editFormBoolean = false;
 
-  $scope.toggleEdit = function(){
-    $scope.editFormBoolean = !$scope.editFormBoolean;
-  }
 
   $scope.deleteJob = function(job){
     $http({
@@ -118,8 +115,6 @@ app.controller('DashboardController', function($scope, $http){
       console.log(data);
     })
   }
-
-
 
   $scope.showNewJobBool=false;
   $scope.showMyJobsBool=true;
@@ -171,16 +166,16 @@ app.controller('ShovelboardController', function($scope, $http){
       delete $http.defaults.headers.common.Authorization
       $http({
           method: 'GET',
-          url:'https://maps.googleapis.com/maps/api/geocode/json?latlng='+$scope.currentLat+','+$scope.currentLong+'&key='+apikey,
+          url:'https://maps.googleapis.com/maps/api/geocode/json?latlng='+$scope.currentLat+','+$scope.currentLong+'&result_type=postal_code&key='+apikey,
           headers: {
               'Accept': 'application/json, text/javascript, /; q=0.01',
               'Content-Type': 'application/json; charset=utf-8',
           }
       }).success(function(data, status){
-        $scope.location = parseInt(data.results[5].address_components[0].long_name) || 80021;
+        console.log(data.results[0].address_components[0].long_name)
+        $scope.location = data.results[0].address_components[0].long_name || 80021;
         $scope.radius = 20;
 
-        console.log(data.results[5].address_components[0].long_name);
         $http.get('https://skyffel.herokuapp.com/jobs/available/'+$scope.userID+'/'+$scope.radius+'/'+$scope.location).then(function(jobs){
           console.log(jobs.data)
           $scope.waiting=false;
