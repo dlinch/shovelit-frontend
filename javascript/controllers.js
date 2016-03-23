@@ -172,15 +172,10 @@ app.controller('ShovelboardController', function($scope, $http){
               'Content-Type': 'application/json; charset=utf-8',
           }
       }).success(function(data, status){
-<<<<<<< HEAD
-        // console.log(data.results[0].address_components[0].long_name)
-        $scope.location = data.results[0].address_components[0].long_name || 80021;
-        $scope.radius = 20;
-=======
+
         console.log(data.results[0].address_components[0].long_name)
         $scope.location = data.results[0].address_components[0].long_name.blah || 80205;
         $scope.radius = 30;
->>>>>>> master
 
         $http.get('https://skyffel.herokuapp.com/jobs/available/'+$scope.userID+'/'+$scope.radius+'/'+$scope.location).then(function(jobs){
           // console.log(jobs.data)
