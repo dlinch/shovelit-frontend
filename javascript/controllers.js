@@ -276,7 +276,7 @@ app.controller('PayController', function($scope, $http, $routeParams, $sce, $loc
 
       if (job.data.type=='house'){
         var handler = StripeCheckout.configure({
-      key: 'pk_test_ARP6jqMCyavHoZPG7PlmNkYd',
+      key: 'pk_live_EDtbU7HW1qVrDNXcw5MrQioO',
       image: '/img/documentation/checkout/marketplace.png',
       locale: 'auto',
       token: function(token) {
@@ -305,7 +305,7 @@ app.controller('PayController', function($scope, $http, $routeParams, $sce, $loc
 
       else if (job.data.type=='lot'){
         var handler = StripeCheckout.configure({
-        key: 'pk_test_ARP6jqMCyavHoZPG7PlmNkYd',
+        key: 'pk_live_EDtbU7HW1qVrDNXcw5MrQioO',
         image: '/img/documentation/checkout/marketplace.png',
         locale: 'auto',
         token: function(token) {
@@ -336,7 +336,7 @@ app.controller('PayController', function($scope, $http, $routeParams, $sce, $loc
 
       else if (job.data.type=='street'){
         var handler = StripeCheckout.configure({
-      key: 'pk_test_ARP6jqMCyavHoZPG7PlmNkYd',
+      key: 'pk_live_EDtbU7HW1qVrDNXcw5MrQioO',
       image: '/img/documentation/checkout/marketplace.png',
       locale: 'auto',
       token: function(token) {
@@ -347,6 +347,7 @@ app.controller('PayController', function($scope, $http, $routeParams, $sce, $loc
             stripeToken: token
           }
         }).then(function(){
+          
           $location.url('dashboard')
         }).catch(function(){
           $location.url('dashboard')
