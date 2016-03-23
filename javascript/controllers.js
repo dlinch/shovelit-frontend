@@ -95,7 +95,7 @@ app.controller('DashboardController', function($scope, $http){
       }
     }).then(function(data){
       console.log(data)
-      $scope.editFormBoolean = !$scope.editFormBoolean;
+      // $scope.job.editFormBoolean = !$scope.job.editFormBoolean;
     }).catch(function(error){
       console.log(error)
     })

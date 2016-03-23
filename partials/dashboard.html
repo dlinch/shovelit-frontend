@@ -1,7 +1,7 @@
 <img src="../assets/default.gif" ng-if="waiting"/>
 <h3><a href="#/shovelboard">Shovel</a></h3>
 
-<div ng-if="!waiting"> 
+<div ng-if="!waiting">
   <h1>Dashboard</h1>
 
   <div class="dashboardContainer">
@@ -40,7 +40,7 @@
         <span am-time-ago="job.time"></span>
         <p ng-show="job.shoveler_id">Someone's On Their Way!</p>
       </div>
-      <form ng-show="editFormBoolean">
+      <form ng-show="job.editFormBoolean">
         <input ng-model='job.address'/>
         <select ng-model="job.type">
           <option value="house" ng-selected="">
@@ -54,11 +54,11 @@
           </option>
         </select>
         <input ng-model="job.zipcode"/>
-        <button ng-click="updateJob(job)">Save</button>
+        <button ng-click="updateJob(job); job.editFormBoolean = !job.editFormBoolean">Save</button>
         <button ng-click="deleteJob(job)">Delete</button>
       </form>
 
-      <button ng-click="editFormBoolean = !editFormBoolean">Edit Job</button>
+      <button ng-click="job.editFormBoolean = !job.editFormBoolean">Edit Job</button>
     </div>
   </div>
 
