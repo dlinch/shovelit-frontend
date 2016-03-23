@@ -1,9 +1,9 @@
-$(document).ready(function(){
-  console.log('jquery working');
+// $(document).ready(function(){
+  // console.log('jquery working');
+  //
+  // $.get("https://skyffel.herokuapp.com/snow", function(data){
+  //   console.log(data);
+  //   $('#snow').text(data);
+  // })
 
-  $.get("https://skyffel.herokuapp.com/snow", function(data){
-    console.log(data);
-    $('#snow').text(data);
-  })
-
-})
+// })

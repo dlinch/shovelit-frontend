@@ -241,7 +241,7 @@ app.controller('ShovelboardController', function($scope, $http){
   }
 })
 
-app.controller('PayController', function($scope, $http, $routeParams, $sce){
+app.controller('PayController', function($scope, $http, $routeParams, $sce, $location){
   $scope.jobID = $routeParams.jobID
   $scope.house = false;
   $scope.lot = false;
@@ -249,19 +249,52 @@ app.controller('PayController', function($scope, $http, $routeParams, $sce){
 
   $http.get('https://skyffel.herokuapp.com/jobs/'+$scope.jobID).then(function(job){
     console.log(job.data)
+
+
+
+
+
+      var handler = StripeCheckout.configure({
+    key: 'pk_test_ARP6jqMCyavHoZPG7PlmNkYd',
+    image: '/img/documentation/checkout/marketplace.png',
+    locale: 'auto',
+    token: function(token) {
+      $http({
+        method: 'POST',
+        url: "https://skyffel.herokuapp.com/stripe/"+$scope.jobID,
+        data: {
+          stripeToken: token
+        }
+      }).then(function(){
+        $location.url('dashboard')
+      }).catch(function(){
+        $location.url('dashboard')
+      })
+      // Use the token to create the charge with a server-side script.
+      // You can access the token ID with `token.id`
+    }
+  });
+
+  handler.open({
+    name: 'Skyffel.Com',
+    description: '1 House',
+    amount: 1000
+  });
+
+
     if(job.data){
       $scope.job = job.data;
-      $scope.actionURLHouse = $sce.trustAsHtml('<form action="https://skyffel.herokuapp.com/stripe/'+$scope.jobID+'" method="POST"><script src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="pk_test_ARP6jqMCyavHoZPG7PlmNkYd" data-amount="1000" data-name="Skyffel" data-description="House Shovel ($10.00)" data-image="/128x128.png" data-locale="auto"></script></form>');
-      $scope.actionURLLot = $sce.trustAsHtml('<form action="https://skyffel.herokuapp.com/stripe/'+$scope.jobID+'" method="POST"><script src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="pk_test_ARP6jqMCyavHoZPG7PlmNkYd" data-amount="$50" data-name="Skyffel" data-description="Parking Lot Shovel ($50.00)" data-image="/128x128.png" data-locale="auto"></script></form>');
-      $scope.actionURLStreet = $sce.trustAsHtml('<form action="https://skyffel.herokuapp.com/stripe/'+$scope.jobID+'" method="POST"><script src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="pk_test_ARP6jqMCyavHoZPG7PlmNkYd" data-amount="$100" data-name="Skyffel" data-description="Street Shovel ($100.00)" data-image="/128x128.png" data-locale="auto"></script></form>');
+      console.log($scope.job);
+      $scope.actionURLHouse = $sce.trustAsHtml('<form action="https://skyffel.herokuapp.com/stripe/'+$scope.jobID+'" method="POST"><script ng-src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="pk_test_ARP6jqMCyavHoZPG7PlmNkYd" data-amount="1000" data-name="Skyffel" data-description="House Shovel ($10.00)" data-image="/128x128.png" data-locale="auto"></script></form>');
+      $scope.actionURLLot = $sce.trustAsHtml('<form action="https://skyffel.herokuapp.com/stripe/'+$scope.jobID+'" method="POST"><script ng-src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="pk_test_ARP6jqMCyavHoZPG7PlmNkYd" data-amount="$50" data-name="Skyffel" data-description="Parking Lot Shovel ($50.00)" data-image="/128x128.png" data-locale="auto"></script></form>');
+      $scope.actionURLStreet = $sce.trustAsHtml('<form action="https://skyffel.herokuapp.com/stripe/'+$scope.jobID+'" method="POST"><script ng-src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="pk_test_ARP6jqMCyavHoZPG7PlmNkYd" data-amount="$100" data-name="Skyffel" data-description="Street Shovel ($100.00)" data-image="/128x128.png" data-locale="auto"></script></form>');
     }
-    return job.data
-  }).then(function(job){
-    if (job.type=="house"){
+  }).then(function(){
+    if ($scope.job.type=="house"){
       $scope.house = true;
-    } else if(job.type=="lot"){
+    } else if($scope.job.type=="lot"){
       $scope.lot = true;
-    } else if(job.type=="street"){
+    } else if($scope.job.type=="street"){
       $scope.street = true;
     }
   })

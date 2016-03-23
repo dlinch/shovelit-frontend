@@ -1,18 +1,18 @@
 <img src="../assets/default.gif" ng-if="waiting"/>
-<h3><a href="#/shovelboard">Shovel</a></h3>
 
 <div ng-if="!waiting">
   <h1>Dashboard</h1>
 
   <div class="dashboardContainer">
     <div class="dashboardNav">
-      <div ng-click="showMyJobs()">My Jobs</div>
-      <div ng-click="showNewJob()">New Job</div>
-      <div ng-click="showToBePaid()">To Be Paid</div>
+      <div ng-click="showMyJobs()" class="dashNavItem"><a href="">My Jobs</a></div>
+      <div ng-click="showNewJob()" class="dashNavItem"><a href="">New Job</a></div>
+      <div ng-click="showToBePaid()" class="dashNavItem"><a href="">To Be Paid</a></div>
+      <div class="dashNavItem"><a href="#/shovelboard">Shovel Board</a></div>
     </div>
 
-
-    <form ng-if="showNewJobBool">
+    <div ng-if="showNewJobBool" class="dashboardContent">
+    <form >
       <h2>New Job</h2>
       <input placeholder="Address" ng-model="job.address"/>
       <input placeholder="Zipcode" ng-model="job.zipcode"/>
@@ -29,46 +29,47 @@
       </select>
       <button ng-click="jobSubmit()">Submit</button>
     </form>
+    </div>
 
-  <div ng-if="showMyJobsBool">
+  <div ng-if="showMyJobsBool" class="dashboardContent" ng-class="{jobsBox: true}">
     <h2>My Jobs</h2>
-    <div ng-repeat="job in jobs">
-      <div>
-        <p>{{job.address + " " + job.zipcode}}</p>
-        <!-- <p>{{job.zipcode}}</p> -->
-        <p>{{job.type}}</p>
-        <span am-time-ago="job.time"></span>
-        <p ng-show="job.shoveler_id">Someone's On Their Way!</p>
-      </div>
-      <form ng-show="job.editFormBoolean">
-        <input ng-model='job.address'/>
-        <select ng-model="job.type">
-          <option value="house" ng-selected="">
-            House
-          </option>
-          <option value="lot">
-            Parking Lot
-          </option>
-          <option value="street">
-            Street
-          </option>
-        </select>
-        <input ng-model="job.zipcode"/>
-        <button ng-click="updateJob(job); job.editFormBoolean = !job.editFormBoolean">Save</button>
-        <button ng-click="deleteJob(job)">Delete</button>
-      </form>
 
-      <button ng-click="job.editFormBoolean = !job.editFormBoolean">Edit Job</button>
+    <div ng-repeat="job in jobs" >
+        <div ng-class="{myJob: true}">
+          <p>{{job.address + " " + job.zipcode}}</p>
+          <!-- <p>{{job.zipcode}}</p> -->
+          <p>{{job.type}}</p>
+          <span am-time-ago="job.time"></span>
+          <p ng-show="job.shoveler_id">Someone's On Their Way!</p>
+        </div>
+        <form ng-show="job.editFormBoolean">
+          <input ng-model='job.address'/>
+          <select ng-model="job.type">
+            <option value="house" ng-selected="">
+              House
+            </option>
+            <option value="lot">
+              Parking Lot
+            </option>
+            <option value="street">
+              Street
+            </option>
+          </select>
+          <input ng-model="job.zipcode"/>
+          <button ng-click="updateJob(job); job.editFormBoolean = !job.editFormBoolean">Save</button>
+          <button ng-click="deleteJob(job)">Delete</button>
+        </form>
+        <button ng-click="job.editFormBoolean = !job.editFormBoolean" >Edit Job</button>
     </div>
   </div>
 
-  <div ng-if="showToBePaidBool">
+  <div ng-if="showToBePaidBool" class="dashboardContent" ng-class="{jobsBox: true}">
     <h2>To Be Paid</h2>
     <div ng-repeat="job in jobsToBePaid">
-      {{job.address}}
-      <p>{{job.type}}</p>
+      <p>{{job.address}}</p>
+      <!-- <p>{{job.type}}</p> -->
       <span am-time-ago="job.time"></span>
-      <a ng-href='#/pay/{{job.id}}'>Pay</a>
+      <button class="payLink"><a ng-href='#/pay/{{job.id}}' >Pay</a></button>
     </div>
     </div>
   </div>
